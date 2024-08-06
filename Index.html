@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Task Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Team Task Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Teams</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="headingNotifications">
+                        <span class="text-white">Notifications</span>
+                        <i class="fas fa-bell text-white" data-toggle="collapse" data-target="#collapseNotifications" aria-expanded="true" aria-controls="collapseNotifications" style="cursor: pointer;"></i>
+                    </div>
+                    <div id="collapseNotifications" class="collapse show" aria-labelledby="headingNotifications">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <a href=""><li class="list-group-item py-3">Notification 1</li></a>
+                                <a href=""><li class="list-group-item py-3">Notification 2</li></a>
+                                <a href=""><li class="list-group-item py-3">Notification 3</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="inviteMember">
+                        <span class="text-white">Invite Member</span>
+                        <i class="fas fa-user text-white" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember" style="cursor: pointer;"></i>
+                    </div>
+                    <div id="collapseMember" class="collapse show" aria-labelledby="inviteMember">
+                        <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="teamMemberEmail" class="form-label">Team Member Email</label>
+                                <input type="email" class="form-control" id="teamMemberEmail" placeholder="Enter team member's email">
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Send Invitation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-4 text-white">
+                    <div class="card-header bg-dark py-3">
+                        Start a New Project
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="projectName" class="form-label text-dark">Project Name</label>
+                                <input type="text" class="form-control" id="projectName" placeholder="Enter project name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectDescription" class="form-label text-dark">Project Description</label>
+                                <textarea class="form-control" id="projectDescription" rows="3" placeholder="Enter project description"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Start Project</button>
+                        </form>
+                    </div>
+                </div>
+    
+               
+    
+                <!-- Recent Projects Section -->
+                <div class="card mb-4 text-white">
+                    <div class="card-header bg-dark py-3">
+                        Recent Projects
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">Project 1</li>
+                            <li class="list-group-item">Project 2</li>
+                            <li class="list-group-item">Project 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
