@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Team Task Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tasks.html">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teams.html">Teams</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Teams</h5>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createTeamModal"><i class="fas fa-plus"></i> Create Team</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="teamList">
+                            <!-- Team Card Example -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Team Alpha</h5>
+                                        <p class="card-text">This is a description of Team Alpha.</p>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teamDetailsModal">View Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add more team cards as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Team Modal -->
+    <div class="modal fade" id="createTeamModal" tabindex="-1" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="createTeamModalLabel">Create New Team</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="teamName" class="form-label">Team Name</label>
+                            <input type="text" class="form-control" id="teamName" placeholder="Enter team name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="teamDescription" class="form-label">Team Description</label>
+                            <textarea class="form-control" id="teamDescription" rows="3" placeholder="Enter team description"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Create Team</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Details Modal -->
+    <div class="modal fade" id="teamDetailsModal" tabindex="-1" aria-labelledby="teamDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="teamDetailsModalLabel">Team Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Team Name: Team Alpha</h5>
+                    <p>Description: This is a detailed description of Team Alpha.</p>
+                    
+                    <h6>Team Members</h6>
+                    <ul class="list-group mb-3" id="teamMembersList">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 1
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 2
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 3
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                    </ul>
+
+                    <div class="mb-3">
+                        <label for="newTeamMemberEmail" class="form-label">Add New Team Member</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newTeamMemberEmail" placeholder="Enter team member's email">
+                            <button class="btn btn-secondary" type="button">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
