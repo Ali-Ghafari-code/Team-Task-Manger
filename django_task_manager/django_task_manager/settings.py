@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_render_partial',
     'taskmanager',
+    'home_module'
 ]
 
 MIDDLEWARE = [
