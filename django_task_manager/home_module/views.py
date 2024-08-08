@@ -23,6 +23,10 @@ def home_view(request):
     return render(request, 'home_module/index_page.html', context)
 
 
+def notification(request):
+    return render(request, 'shared/notification.html', {})
+
+
 def site_header_partial(request):
     return render(request, 'shared/site_header_partial.html', {})
 

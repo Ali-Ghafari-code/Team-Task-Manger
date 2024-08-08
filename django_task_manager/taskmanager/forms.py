@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project
+from .models import Project, Milestone
 
 
 class ProjectForm(forms.ModelForm):
@@ -35,3 +35,9 @@ class ProjectForm(forms.ModelForm):
             'start_date': 'Start Date',
             'end_date': 'End Date',
         }
+
+
+class MilestoneForm(forms.ModelForm):
+    class Meta:
+        model = Milestone
+        fields = ['name']
