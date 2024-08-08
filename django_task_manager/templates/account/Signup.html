@@ -1,0 +1,25 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+Register
+{% endblock title %}
+{% block main %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">Register</div>
+                <div class="card-body">
+                    <form method="post" action="{% url "register_page" %}">
+                        {% csrf_token %}
+                        {{ register_form.as_p }}
+                        <button type="submit" class="btn btn-secondary">Register</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    Already have an account? <a href="{% url 'login_page' %}">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
