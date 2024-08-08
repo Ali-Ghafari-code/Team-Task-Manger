@@ -30,26 +30,23 @@
 
                     <h6>Project Team Members</h6>
                         <ul class="list-group mb-4" id="teamMembersList">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Member 1
-                                <button class="btn btn-danger btn-sm">Remove</button>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Member 2
-                                <button class="btn btn-danger btn-sm">Remove</button>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Member 3
-                                <button class="btn btn-danger btn-sm">Remove</button>
-                            </li>
+                            {% for member in project_members %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ member.user.username }}
+                                    <button class="btn btn-danger btn-sm">Remove</button>
+                                </li>
+                            {% endfor %}
                         </ul>
 
                     <div class="mb-3">
-                        <label for="newTeamMemberEmail" class="form-label">Add New Team Member</label>
-                        <div class="input-group">
-                            <input type="email" class="form-control" id="newTeamMemberEmail" placeholder="Enter team member's email">
-                            <button class="btn btn-secondary" type="button">Add</button>
-                        </div>
+                        <label for="newTeamMemberUsername" class="form-label">Add New Team Member</label>
+                        <form method="post" action="{% url 'project_detail' project.id %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="newTeamMemberUsername" id="newTeamMemberUsername" placeholder="Enter friend's username">
+                                <button class="btn btn-secondary" type="submit">Add</button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>

@@ -44,6 +44,14 @@ class Task(models.Model):
         return self.name
 
 
+class ProjectMember(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='members')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='project_memberships')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.project.name}"
+
+
 class ProjectMembership(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
