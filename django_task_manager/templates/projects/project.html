@@ -1,0 +1,76 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+    project
+{% endblock %}
+{% block main %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white py-3">
+                    Project Details
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Project Name: <span id="projectName">{{ project.name }}</span></h5>
+                    <p class="card-text">Description: <span id="projectDescription">{{ project.description }}</span></p>
+
+                    <h6>Project Progress</h6>
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                    </div>
+
+                    <h6>Upcoming Milestones</h6>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item">Milestone 1: Description</li>
+                        <li class="list-group-item">Milestone 2: Description</li>
+                        <li class="list-group-item">Milestone 3: Description</li>
+                    </ul>
+
+                    <h6>Project Team Members</h6>
+                    <ul class="list-group mb-4" id="teamMembersList">
+                        {% for member in project.team.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ member.username }}
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="mb-3">
+                        <label for="newTeamMemberEmail" class="form-label">Add New Team Member</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newTeamMemberEmail" placeholder="Enter team member's email">
+                            <button class="btn btn-secondary" type="button">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white py-3">
+                    Notifications
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Notification 1</li>
+                        <li class="list-group-item">Notification 2</li>
+                        <li class="list-group-item">Notification 3</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white py-3">
+                    Actions
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-primary mb-3 w-100">Edit Project</button>
+                    <button class="btn btn-danger w-100">Delete Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

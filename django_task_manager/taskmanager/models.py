@@ -15,6 +15,13 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    def calculate_progress(self):
+        from datetime import date
+        total_days = (self.end_date - self.start_date).days
+        elapsed_days = (date.today() - self.start_date).days
+        progress = (elapsed_days / total_days) * 100 if total_days > 0 else 0
+        return min(max(progress, 0), 100)
+
 
 class Task(models.Model):
     name = models.CharField(max_length=255)

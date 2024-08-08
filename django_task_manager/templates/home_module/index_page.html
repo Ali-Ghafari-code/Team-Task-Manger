@@ -1,34 +1,36 @@
 {% extends 'shared/_layout.html' %}
+
 {% block title %}
-    Task Manager
+    Projects
 {% endblock %}
+
 {% block main %}
-   <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="headingNotifications">
-                        <span class="text-white">Notifications</span>
-                        <i class="fas fa-bell text-white" data-toggle="collapse" data-target="#collapseNotifications" aria-expanded="true" aria-controls="collapseNotifications" style="cursor: pointer;"></i>
-                    </div>
-                    <div id="collapseNotifications" class="collapse show" aria-labelledby="headingNotifications">
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <a href=""><li class="list-group-item py-3">Notification 1</li></a>
-                                <a href=""><li class="list-group-item py-3">Notification 2</li></a>
-                                <a href=""><li class="list-group-item py-3">Notification 3</li></a>
-                            </ul>
-                        </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="headingNotifications">
+                    <span class="text-white">Notifications</span>
+                    <i class="fas fa-bell text-white" data-toggle="collapse" data-target="#collapseNotifications" aria-expanded="true" aria-controls="collapseNotifications" style="cursor: pointer;"></i>
+                </div>
+                <div id="collapseNotifications" class="collapse show" aria-labelledby="headingNotifications">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <a href=""><li class="list-group-item py-3">Notification 1</li></a>
+                            <a href=""><li class="list-group-item py-3">Notification 2</li></a>
+                            <a href=""><li class="list-group-item py-3">Notification 3</li></a>
+                        </ul>
                     </div>
                 </div>
+            </div>
 
-                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="inviteMember">
-                        <span class="text-white">Invite Member</span>
-                        <i class="fas fa-user text-white" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember" style="cursor: pointer;"></i>
-                    </div>
-                    <div id="collapseMember" class="collapse show" aria-labelledby="inviteMember">
-                        <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="inviteMember">
+                    <span class="text-white">Invite Member</span>
+                    <i class="fas fa-user text-white" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember" style="cursor: pointer;"></i>
+                </div>
+                <div id="collapseMember" class="collapse show" aria-labelledby="inviteMember">
+                    <div class="card-body">
                         <form>
                             <div class="mb-3">
                                 <label for="teamMemberEmail" class="form-label">Team Member Email</label>
@@ -39,41 +41,43 @@
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card mb-4 text-white">
-                    <div class="card-header bg-dark py-3">
-                        Start a New Project
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="projectName" class="form-label text-dark">Project Name</label>
-                                <input type="text" class="form-control" id="projectName" placeholder="Enter project name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="projectDescription" class="form-label text-dark">Project Description</label>
-                                <textarea class="form-control" id="projectDescription" rows="3" placeholder="Enter project description"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-secondary">Start Project</button>
-                        </form>
-                    </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4 text-white">
+                <div class="card-header bg-dark py-3">
+                    Active Projects
                 </div>
-
-
-                    <div class="card mb-4 text-white">
-                    <div class="card-header bg-dark py-3">
-                        Recent Projects
-                    </div>
-                    <div class="card-body">
+                <div class="card-body">
+                    {% if active_projects.exists %}
                         <ul class="list-group">
-                            <li class="list-group-item">Project 1</li>
-                            <li class="list-group-item">Project 2</li>
-                            <li class="list-group-item">Project 3</li>
+                            {% for project in active_projects %}
+                                <a href="{% url 'project_detail' project.id %}"><li class="list-group-item">{{ project.name }}</li></a>
+                            {% endfor %}
                         </ul>
-                    </div>
+                    {% else %}
+                        <p>No active projects.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-4 text-white">
+                <div class="card-header bg-dark py-3">
+                    Past Projects
+                </div>
+                <div class="card-body">
+                    {% if past_projects.exists %}
+                        <ul class="list-group">
+                            {% for project in past_projects %}
+                                <a href="{% url 'project_detail' project.id %}"><li class="list-group-item">{{ project.name }}</li></a>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No past projects.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

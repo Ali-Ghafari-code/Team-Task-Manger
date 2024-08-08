@@ -1,0 +1,99 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+    Task Manager
+{% endblock %}
+{% block main %}
+<div class="container mt-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Teams</h5>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createTeamModal"><i class="fas fa-plus"></i> Create Team</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="teamList">
+                            <!-- Team Card Example -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Team Alpha</h5>
+                                        <p class="card-text">This is a description of Team Alpha.</p>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teamDetailsModal">View Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add more team cards as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Team Modal -->
+    <div class="modal fade" id="createTeamModal" tabindex="-1" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="createTeamModalLabel">Create New Team</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="teamName" class="form-label">Team Name</label>
+                            <input type="text" class="form-control" id="teamName" placeholder="Enter team name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="teamDescription" class="form-label">Team Description</label>
+                            <textarea class="form-control" id="teamDescription" rows="3" placeholder="Enter team description"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Create Team</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Details Modal -->
+    <div class="modal fade" id="teamDetailsModal" tabindex="-1" aria-labelledby="teamDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="teamDetailsModalLabel">Team Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Team Name: Team Alpha</h5>
+                    <p>Description: This is a detailed description of Team Alpha.</p>
+
+                    <h6>Team Members</h6>
+                    <ul class="list-group mb-3" id="teamMembersList">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 1
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 2
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member 3
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </li>
+                    </ul>
+
+                    <div class="mb-3">
+                        <label for="newTeamMemberEmail" class="form-label">Add New Team Member</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newTeamMemberEmail" placeholder="Enter team member's email">
+                            <button class="btn btn-secondary" type="button">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
