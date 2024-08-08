@@ -1,20 +1,29 @@
 from datetime import date
-
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateView
 
+from account.models import User
 from taskmanager.models import Project
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from datetime import date
 
 
 @login_required
 def home_view(request):
     today = date.today()
-    active_projects = Project.objects.filter(end_date__gte=today)
-    past_projects = Project.objects.filter(end_date__lt=today)
+    user = request.user
 
+    active_projects = Project.objects.filter(
+        (Q(manager=user) | Q(team=user)),
+        end_date__gte=today
+    ).distinct()
+
+    past_projects = Project.objects.filter(
+        (Q(manager=user) | Q(team=user)),
+        end_date__lt=today
+    ).distinct()
     context = {
         'active_projects': active_projects,
         'past_projects': past_projects,
@@ -24,7 +33,15 @@ def home_view(request):
 
 
 def notification(request):
-    return render(request, 'shared/notification.html', {})
+    notifications = request.user.notifications.filter(is_read=False)
+    friends = request.user.friends.all()
+
+    context = {
+        'notifications': notifications,
+        'friends': friends
+    }
+
+    return render(request, 'shared/notification.html', context)
 
 
 def site_header_partial(request):

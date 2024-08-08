@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'taskmanager',
     'account',
+    'friend_request',
     'home_module',
 ]
 

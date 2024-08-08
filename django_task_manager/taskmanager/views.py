@@ -49,3 +49,11 @@ def manage_milestones(request, project_id):
             milestone.project = project
             milestone.save()
             return redirect('project_detail', project_id=project.id)
+
+    else:
+        form = MilestoneForm()
+
+    return render(request, 'projects/manage_milestones.html', {
+        'form': form,
+        'project': project,
+    })

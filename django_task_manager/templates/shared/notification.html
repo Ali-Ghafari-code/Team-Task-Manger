@@ -3,28 +3,61 @@
                     <span class="text-white">Notifications</span>
                     <i class="fas fa-bell text-white" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="true" aria-controls="collapseNotifications" style="cursor: pointer;"></i>
                 </div>
-                <div id="collapseNotifications" class="collapse show" aria-labelledby="headingNotifications">
+                <div id="collapseNotifications" class="collapse" aria-labelledby="headingNotifications">
                     <div class="card-body">
                         <ul class="list-group">
-                            <a href="#"><li class="list-group-item py-3">Notification 1</li></a>
-                            <a href="#"><li class="list-group-item py-3">Notification 2</li></a>
-                            <a href="#"><li class="list-group-item py-3">Notification 3</li></a>
+                             {% for request in user.received_friend_requests.all %}
+                                <li class="list-group-item py-3">
+                                    {{ request.from_user.username }} sent you a friend request.
+                                    <a href="{% url 'manage_friend_request' request.id 'accept' %}" class="btn btn-success btn-sm">Accept</a>
+                                    <a href="{% url 'manage_friend_request' request.id 'decline' %}" class="btn btn-danger btn-sm">Decline</a>
+                                </li>
+                                {% endfor %}
+                                {% for notification in notifications %}
+                                <li class="list-group-item">
+                                    {{ notification.message }}
+                                    <form method="post" action="{% url 'mark_as_read' notification.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-success">Mark as read</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
                         </ul>
                     </div>
                 </div>
             </div>
 
-<div class="card mb-4">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="inviteMember">
+                    <span class="text-white">Friends</span>
+                    <i class="fas fa-user text-white" data-bs-toggle="collapse" data-bs-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember" style="cursor: pointer;"></i>
+                </div>
+                <div id="collapseMember" class="collapse" aria-labelledby="inviteMember">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for friend in friends %}
+                                <li class="list-group-item">{{ friend.username }}</li>
+                            {% empty %}
+                                <li class="list-group-item">No friends found.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center py-3 bg-dark" id="inviteMember">
                     <span class="text-white">Invite Member</span>
                     <i class="fas fa-user text-white" data-bs-toggle="collapse" data-bs-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember" style="cursor: pointer;"></i>
                 </div>
                 <div id="collapseMember" class="collapse show" aria-labelledby="inviteMember">
                     <div class="card-body">
-                        <form>
+                        <form method="post" action="{% url 'send_friend_request' %}">
+                            {% csrf_token %}
+                                <input type="hidden" name="project_id" value="{{ project.id }}">
                             <div class="mb-3">
                                 <label for="teamMemberEmail" class="form-label">Team Member Email</label>
-                                <input type="email" class="form-control" id="teamMemberEmail" placeholder="Enter team member's email">
+                                <input type="email" class="form-control" id="teamMemberEmail" name="team_member_email" placeholder="Enter team member's email">
                             </div>
                             <button type="submit" class="btn btn-secondary">Send Invitation</button>
                         </form>
