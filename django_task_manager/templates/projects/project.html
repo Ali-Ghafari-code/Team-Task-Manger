@@ -47,7 +47,9 @@
                 <h3>Tasks</h3>
                     <ul class="list-group mb-4 ">
                         {% for task in tasks %}
-                            <li class="list-group-item d-flex justify-content-between">{{ task.name }} - {{ task.assigned_to }}
+                            <li class="list-group-item d-flex justify-content-between">{{ task.name }} - {{ task.assigned_to }}{% if task.completed %}
+                            <h5 class="text-success">completed</h5>
+                            {% endif %}
                                 {% if request.user == project.manager %}
                                     <form method="post" action="{% url 'delete_task' task.id %}" style="display:inline;">
                                     {% csrf_token %}

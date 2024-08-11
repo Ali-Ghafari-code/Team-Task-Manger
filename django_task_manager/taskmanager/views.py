@@ -134,3 +134,50 @@ def delete_task(request, task_id):
         return redirect('project_detail', project_id=project.id)
 
     return redirect('project_detail', project_id=project.id)
+
+
+@login_required
+def tasks_view(request):
+    tasks = Task.objects.all()
+
+    incomplete_tasks = tasks.filter(completed=False)
+    completed_tasks = tasks.filter(completed=True)
+
+    context = {
+        'incomplete_tasks': incomplete_tasks,
+        'completed_tasks': completed_tasks
+    }
+
+    return render(request, 'tasks/tasks.html', context)
+
+
+@login_required
+def complete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    # Check if the user is allowed to complete the task
+    if request.user != task.assigned_to and request.user != task.project.manager:
+        messages.error(request, 'You do not have permission to complete this task.')
+        return redirect('tasks_view')
+
+    if request.method == 'POST':
+        task.completed = True
+        task.save()
+        messages.success(request, 'Task marked as complete.')
+        return redirect('tasks_view')
+
+
+@login_required
+def reopen_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    # Check if the user is allowed to reopen the task
+    if request.user != task.assigned_to and request.user != task.project.manager:
+        messages.error(request, 'You do not have permission to reopen this task.')
+        return redirect('tasks_view')
+
+    if request.method == 'POST':
+        task.completed = False
+        task.save()
+        messages.success(request, 'Task has been reopened.')
+        return redirect('tasks_view')

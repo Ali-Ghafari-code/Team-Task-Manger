@@ -11,42 +11,25 @@
                         Tasks to Do
                     </div>
                     <div class="card-body">
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Task 1</h5>
-                                    <p class="card-text">Description for Task 1</p>
-                                    <p class="task-dates">Created: 2024-08-01 | Until: 2024-08-03</p>
+                        {% for task in incomplete_tasks %}
+                            {% if not task.completed %}
+                                <div class="task-card card mb-2">
+                                    <div class="card-body">
+                                        <div class="task-info text-dark">
+                                            <h5 class="card-title">{{ task.name }}</h5>
+                                            <p class="card-text">{{ task.description }}</p>
+                                            <p class="task-dates">Created: {{ task.start_date }} | Until: {{ task.due_date }}</p>
+                                        </div>
+                                        <div class="task-actions">
+                                            <form action="{% url 'complete_task' task.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success">Complete</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-success">Complete</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Task 2</h5>
-                                    <p class="card-text">Description for Task 2</p>
-                                    <p class="task-dates">Created: 2024-08-02 | Until: 2024-08-03</p>
-                                </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-success">Complete</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Task 3</h5>
-                                    <p class="card-text">Description for Task 3</p>
-                                    <p class="task-dates">Created: 2024-08-03 | Until: 2024-08-03</p>
-                                </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-success">Complete</button>
-                                </div>
-                            </div>
-                        </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -56,42 +39,25 @@
                         Completed Tasks
                     </div>
                     <div class="card-body">
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Completed Task 1</h5>
-                                    <p class="card-text">Description for Completed Task 1</p>
-                                    <p class="task-dates">Created: 2024-07-28 | Completed: 2024-08-01</p>
+                        {% for task in completed_tasks %}
+                            {% if task.completed %}
+                                <div class="task-card card mb-2">
+                                    <div class="card-body">
+                                        <div class="task-info text-dark">
+                                            <h5 class="card-title">{{ task.name }}</h5>
+                                            <p class="card-text">{{ task.description }}</p>
+                                            <p class="task-dates">Created: {{ task.start_date }} | Completed: {{ task.due_date }}</p>
+                                        </div>
+                                        <div class="task-actions">
+                                            <form action="{% url 'reopen_task' task.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Reopen</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-danger">Reopen</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Completed Task 2</h5>
-                                    <p class="card-text">Description for Completed Task 2</p>
-                                    <p class="task-dates">Created: 2024-07-29 | Completed: 2024-08-02</p>
-                                </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-danger">Reopen</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task-card card">
-                            <div class="card-body">
-                                <div class="task-info text-dark">
-                                    <h5 class="card-title">Completed Task 3</h5>
-                                    <p class="card-text">Description for Completed Task 3</p>
-                                    <p class="task-dates">Created: 2024-07-30 | Completed: 2024-08-03</p>
-                                </div>
-                                <div class="task-actions">
-                                    <button class="btn btn-danger">Reopen</button>
-                                </div>
-                            </div>
-                        </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
