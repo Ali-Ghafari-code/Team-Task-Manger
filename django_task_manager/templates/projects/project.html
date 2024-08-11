@@ -33,11 +33,30 @@
                             {% for member in project_members %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ member.user.username }}
-                                    <button class="btn btn-danger btn-sm">Remove</button>
+                                    {% if request.user == project.manager %}
+                                    <div>
+                                        <a href="" class="btn btn-danger btn-sm">Remove <i class="fas fa-minus"></i></a>
+                                    </div>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
-
+                    {% if request.user == project.manager %}
+                        <a href="#" class="btn btn-success btn-md w-100 mb-2" data-bs-toggle="modal" data-bs-target="#addTaskModal" data-user-id="{{ member.user.id }}">Add Task <i class="fas fa-plus"></i></a>
+                    {% endif %}
+                <h3>Tasks</h3>
+                    <ul class="list-group mb-4 ">
+                        {% for task in tasks %}
+                            <li class="list-group-item d-flex justify-content-between">{{ task.name }} - {{ task.assigned_to }}
+                                {% if request.user == project.manager %}
+                                    <form method="post" action="{% url 'delete_task' task.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></button>
+                                        </form>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
                     <div class="mb-3">
                         <label for="newTeamMemberUsername" class="form-label">Add New Team Member</label>
                         <form method="post" action="{% url 'project_detail' project.id %}">
@@ -90,6 +109,26 @@
         </div>
     </div>
 </div>
+        </div>
+    </div>
+</div>
+        <!-- Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTaskModalLabel">Add Task to {{ project.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     <form method="post" action="{% url 'add_task' project.id %}">
+                    {% csrf_token %}
+                    {{ task_form.as_p }}
+                    <button type="submit" class="btn btn-success">Add Task</button>
+                </form>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

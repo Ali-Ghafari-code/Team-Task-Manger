@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'account',
     'friend_request',
     'home_module',
+
 ]
 
 MIDDLEWARE = [
@@ -64,7 +65,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_task_manager.wsgi.application'
 
-
+LOGIN_URL = '/user/login'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 

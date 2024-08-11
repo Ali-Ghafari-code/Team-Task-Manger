@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from account.models import User
-from .models import Project, ProjectMember
-from .forms import ProjectForm, MilestoneForm
+from friend_request.models import Notification
+from .models import Project, ProjectMember, Task
+from .forms import ProjectForm, MilestoneForm, TaskForm
 
 
 @login_required
@@ -33,7 +34,10 @@ def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     progress = project.calculate_progress()
     milestones = project.milestones.all()
+    tasks = project.tasks.all()
     form = MilestoneForm()
+
+    task_form = TaskForm()
 
     if request.method == 'POST':
         friend_username = request.POST.get('newTeamMemberUsername')
@@ -64,7 +68,9 @@ def project_detail(request, project_id):
         'progress': progress,
         'milestones': milestones,
         'form': form,
+        'task_form': task_form,
         'project_members': project_members,
+        'tasks': tasks
     }
     return render(request, 'projects/project.html', context)
 
@@ -87,3 +93,44 @@ def manage_milestones(request, project_id):
         'form': form,
         'project': project,
     })
+
+
+def add_task(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    assigned_user = None
+    if 'assigned_to' in request.GET:
+        assigned_user = get_object_or_404(User, id=request.GET['assigned_to'])
+
+    if request.method == 'POST':
+        task_form = TaskForm(request.POST)
+        if task_form.is_valid():
+            task = task_form.save(commit=False)
+            task.project = project
+            task.save()
+            notification_message = f'You have been assigned a new task in the project "{project.name}".'
+            Notification.objects.create(user=task.assigned_to, message=notification_message)
+
+            messages.success(request, 'Task added successfully!')
+            return redirect('project_detail', project_id=project.id)
+    else:
+        task_form = TaskForm(initial={'assigned_to': assigned_user} if assigned_user else None)
+
+    return render(request, 'projects/project.html', {'task_form': task_form, 'project': project})
+
+
+@login_required
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    project = task.project
+
+    # Check if the user is the task creator or project manager
+    if request.user != task.assigned_to and request.user != project.manager:
+        messages.error(request, 'You do not have permission to delete this task.')
+        return redirect('project_detail', project_id=project.id)
+
+    if request.method == 'POST':
+        task.delete()
+        messages.success(request, 'Task has been deleted successfully.')
+        return redirect('project_detail', project_id=project.id)
+
+    return redirect('project_detail', project_id=project.id)
