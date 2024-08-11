@@ -181,3 +181,20 @@ def reopen_task(request, task_id):
         task.save()
         messages.success(request, 'Task has been reopened.')
         return redirect('tasks_view')
+
+
+@login_required
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+
+    # بررسی اینکه آیا کاربر جاری مدیر پروژه است
+    if request.user != project.manager:
+        messages.error(request, 'You do not have permission to delete this project.')
+        return redirect('project_detail', project_id=project.id)
+
+    if request.method == 'POST':
+        project.delete()
+        messages.success(request, 'Project has been deleted successfully.')
+        return redirect('start_project')
+
+    return redirect('project_detail', project_id=project.id)

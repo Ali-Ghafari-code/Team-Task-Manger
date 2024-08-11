@@ -1,8 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 
-from taskmanager.models import ProjectMembership
+from taskmanager.models import ProjectMembership, Project, ProjectMember
 from .models import FriendRequest, User, Notification
 
 User = get_user_model()
@@ -54,6 +55,26 @@ def manage_friend_request(request, request_id, action):
         friend_request.delete()
 
     return redirect('home_page')
+
+
+@login_required
+def remove_member(request, project_id, user_id):
+    project = get_object_or_404(Project, id=project_id)
+    user = get_object_or_404(User, id=user_id)
+
+    # بررسی اینکه آیا کاربر جاری مدیر پروژه است
+    if request.user != project.manager:
+        messages.error(request, 'You do not have permission to remove members from this project.')
+        return redirect('project_detail', project_id=project.id)
+
+    if ProjectMember.objects.filter(project=project, user=user).exists():
+        ProjectMember.objects.filter(project=project, user=user).delete()
+        project.team.remove(user)
+        messages.success(request, f'{user.username} has been removed from the project.')
+    else:
+        messages.info(request, f'{user.username} is not a member of the project.')
+
+    return redirect('project_detail', project_id=project.id)
 
 
 @login_required

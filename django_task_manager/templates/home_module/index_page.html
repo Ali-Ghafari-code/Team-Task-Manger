@@ -8,49 +8,53 @@
 
 {% block main %}
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
 
-            {% render_partial 'home_module.views.notification' %}
+                {% render_partial 'home_module.views.notification' %}
 
-        </div>
-
-        <div class="col-md-8">
-            <div class="card mb-4 text-white">
-                <div class="card-header bg-dark py-3">
-                    Active Projects
-                </div>
-                <div class="card-body">
-                    {% if active_projects.exists %}
-                        <ul class="list-group">
-                            {% for project in active_projects %}
-                                <a href="{% url 'project_detail' project.id %}"><li class="list-group-item">{{ project.name }}</li></a>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No active projects.</p>
-                    {% endif %}
-                </div>
             </div>
 
-            <div class="card mb-4 text-white">
-                <div class="card-header bg-dark py-3">
-                    Past Projects
+            <div class="col-md-8">
+                <div class="card mb-4 text-white">
+                    <div class="card-header bg-dark py-3">
+                        Active Projects
+                    </div>
+                    <div class="card-body">
+                        {% if active_projects.exists %}
+                            <ul class="list-group">
+                                {% for project in active_projects %}
+                                    <a href="{% url 'project_detail' project.id %}">
+                                        <li class="list-group-item">{{ project.name }}</li>
+                                    </a>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <a href="{% url 'start_project' %}" class="btn btn-primary w-100">Start New Project</a>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="card-body">
-                    {% if past_projects.exists %}
-                        <ul class="list-group">
-                            {% for project in past_projects %}
-                                <a href="{% url 'project_detail' project.id %}"><li class="list-group-item">{{ project.name }}</li></a>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p class="text-dark">No past projects.</p>
-                    {% endif %}
+
+                <div class="card mb-4 text-white">
+                    <div class="card-header bg-dark py-3">
+                        Past Projects
+                    </div>
+                    <div class="card-body">
+                        {% if past_projects.exists %}
+                            <ul class="list-group">
+                                {% for project in past_projects %}
+                                    <a href="{% url 'project_detail' project.id %}">
+                                        <li class="list-group-item">{{ project.name }}</li>
+                                    </a>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-dark">No past projects.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

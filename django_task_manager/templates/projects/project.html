@@ -5,116 +5,138 @@
     project
 {% endblock %}
 {% block main %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white py-3">
-                    Project Details
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Project Name: <span id="projectName">{{ project.name }}</span></h5>
-                    <p class="card-text">Description: <span id="projectDescription">{{ project.description }}</span></p>
-
-                    <h6>Project Progress</h6>
-                    <div class="progress mb-4">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white py-3">
+                        Project Details
                     </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Project Name: <span id="projectName">{{ project.name }}</span></h5>
+                        <p class="card-text">Description: <span id="projectDescription">{{ project.description }}</span>
+                        </p>
 
-                    <h6>Upcoming Milestones</h6>
-                    <ul class="list-group mb-4">
-                        {% for milestone in milestones %}
-                            <li class="list-group-item">Milestone : {{ milestone.name }}</li>
-                        {% endfor %}
-                    </ul>
+                        <h6>Project Progress</h6>
+                        <div class="progress mb-4">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%;"
+                                 aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%
+                            </div>
+                        </div>
 
-                    <h6>Project Team Members</h6>
+                        <h6>Upcoming Milestones</h6>
+                        <ul class="list-group mb-4">
+                            {% for milestone in milestones %}
+                                <li class="list-group-item">Milestone : {{ milestone.name }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        <h6>Project Team Members</h6>
                         <ul class="list-group mb-4" id="teamMembersList">
                             {% for member in project_members %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ member.user.username }}
                                     {% if request.user == project.manager %}
-                                    <div>
-                                        <a href="" class="btn btn-danger btn-sm">Remove <i class="fas fa-minus"></i></a>
-                                    </div>
+                                        <div>
+                                            <form action="{% url 'remove_member' project.id member.user.id %}"
+                                                  method="post" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove <i
+                                                        class="fas fa-minus"></i></button>
+                                            </form>
+                                        </div>
                                     {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
-                    {% if request.user == project.manager %}
-                        <a href="#" class="btn btn-success btn-md w-100 mb-2" data-bs-toggle="modal" data-bs-target="#addTaskModal" data-user-id="{{ member.user.id }}">Add Task <i class="fas fa-plus"></i></a>
-                    {% endif %}
-                <h3>Tasks</h3>
-                    <ul class="list-group mb-4 ">
-                        {% for task in tasks %}
-                            <li class="list-group-item d-flex justify-content-between">{{ task.name }} - {{ task.assigned_to }}{% if task.completed %}
-                            <h5 class="text-success">completed</h5>
-                            {% endif %}
-                                {% if request.user == project.manager %}
-                                    <form method="post" action="{% url 'delete_task' task.id %}" style="display:inline;">
-                                    {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-minus"></i></button>
+                        <h3>Tasks</h3>
+
+                        <ul class="list-group mb-4 ">
+                            {% for task in tasks %}
+                                <li class="list-group-item d-flex justify-content-between">{{ task.name }} -
+                                    {{ task.assigned_to }}{% if task.completed %}
+                                        <h5 class="text-success">completed</h5>
+                                    {% endif %}
+                                    {% if request.user == project.manager %}
+                                        <form method="post" action="{% url 'delete_task' task.id %}"
+                                              style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm"><i
+                                                    class="fas fa-minus"></i></button>
                                         </form>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="mb-3">
-                        <label for="newTeamMemberUsername" class="form-label">Add New Team Member</label>
-                        <form method="post" action="{% url 'project_detail' project.id %}">
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% if request.user == project.manager %}
+                            <a href="#" class="btn btn-success btn-md w-100 mb-2" data-bs-toggle="modal"
+                               data-bs-target="#addTaskModal" data-user-id="{{ member.user.id }}">Add Task <i
+                                    class="fas fa-plus"></i></a>
+                        {% endif %}
+                        <div class="mb-3">
+                            <label for="newTeamMemberUsername" class="form-label">Add New Team Member</label>
+                            <form method="post" action="{% url 'project_detail' project.id %}">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="newTeamMemberUsername"
+                                           id="newTeamMemberUsername" placeholder="Enter friend's username">
+                                    <button class="btn btn-secondary" type="submit">Add</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% render_partial 'home_module.views.notification' %}
+
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white py-3">
+                        Actions
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary mb-3 w-100" data-bs-toggle="modal"
+                                data-bs-target="#milestoneModal">
+                            Add Milestones
+                        </button>
+                        <form action="{% url 'delete_project' project.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="newTeamMemberUsername" id="newTeamMemberUsername" placeholder="Enter friend's username">
-                                <button class="btn btn-secondary" type="submit">Add</button>
-                            </div>
+                            <button type="submit" class="btn btn-danger w-100">Delete Project</button>
                         </form>
                     </div>
-
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            {% render_partial 'home_module.views.notification' %}
 
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white py-3">
-                    Actions
-                </div>
-                <div class="card-body">
-                      <button type="button" class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#milestoneModal">
-                        Add Milestones
-                      </button>
-                    <button class="btn btn-danger w-100">Delete Project</button>
-                </div>
-            </div>
-
-            <div class="modal fade" id="milestoneModal" tabindex="-1" aria-labelledby="milestoneModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="milestoneModalLabel">Add Milestone</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-                <form action="{% url 'manage_milestones' project.id %}" method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            {{ form.name.label_tag }}
-                            {{ form.name }}
+                <div class="modal fade" id="milestoneModal" tabindex="-1" aria-labelledby="milestoneModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="milestoneModalLabel">Add Milestone</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <form action="{% url 'manage_milestones' project.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        {{ form.name.label_tag }}
+                                        {{ form.name }}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-        </div>
-    </div>
-</div>
-        <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -123,15 +145,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                     <form method="post" action="{% url 'add_task' project.id %}">
-                    {% csrf_token %}
-                    {{ task_form.as_p }}
-                    <button type="submit" class="btn btn-success">Add Task</button>
-                </form>
+                    <form method="post" action="{% url 'add_task' project.id %}">
+                        {% csrf_token %}
+                        {{ task_form.as_p }}
+                        <button type="submit" class="btn btn-success">Add Task</button>
+                    </form>
 
                 </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
 {% endblock %}
