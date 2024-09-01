@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="be12ceec-8342-4bd3-9d06-c4ddc491e729" name="Changes" comment="" />
+    <list default="true" id="be12ceec-8342-4bd3-9d06-c4ddc491e729" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_task_manager/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/django_task_manager/db.sqlite3" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +27,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "D:/should do/Team-Task-Manger/django_task_manager",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -35,6 +45,8 @@
       <workItem from="1723130220242" duration="27000" />
       <workItem from="1723130262758" duration="37000" />
       <workItem from="1723367623908" duration="48000" />
+      <workItem from="1723997084939" duration="17000" />
+      <workItem from="1724703127059" duration="975000" />
     </task>
     <servers />
   </component>
